@@ -6,7 +6,7 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 10:39:43 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/04/29 19:06:12 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/05/01 03:34:52 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,74 +24,66 @@ size_t	ft_strlen(const char *str)
 
 char	*ft_strchr(const char *str, int c)
 {
-	int	i;
+	char	*new_str;
 
-	if (!str)
+	new_str = (char *)str;
+	while (*new_str != c && *new_str != 0)
+		new_str++;
+	if (*new_str == c)
+		return (new_str);
+	else
 		return (NULL);
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == (char)c)
-			return ((char *)(str + i));
-		i++;
-	}
-	if (str[i] == (char)c)
-		return ((char *)(str + i));
-	return (NULL);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
+	int		size;
 	char	*str;
 	size_t	i;
 	size_t	j;
 
-	
-	if (!s1)
+	size = ft_strlen(s1) + ft_strlen(s2);
+	str = malloc(sizeof(char) * (size + 1));
+	if (!s1 || !s2 || !str)
+		return (NULL);
+	i = 0;
+	while (s1[i] != 0)
 	{
-		s1 = (char *)malloc(1 * sizeof(char));
-		s1[0] = '\0';
-	}
-	if (!s1 || !s2)
-		return (NULL);
-	str = malloc(sizeof(char) * ((ft_strlen(s1) + ft_strlen(s2)) + 1));
-	if (str == NULL)
-		return (NULL);
-	i = -1;
-	j = 0;
-	if (s2)
-		while (s1[++i] != '\0')
 		str[i] = s1[i];
-	while (s2[j] != '\0')
-		str[i++] = s2[j++];
-	str[ft_strlen(s1) + ft_strlen(s2)] = '\0';
+		i++;
+	}
+	j = 0;
+	while (s2[i] != 0)
+	{
+		str[i] = s2[j];
+		i++;
+		j++;
+	}
+	str[size] = 0;
 	return (str);
 }
 
-char	*gnt_get_line(char *left_str)
+void	ft_bzero(void *s, size_t n)
 {
-	int		i;
-	char	*str;
+	size_t	i;
 
 	i = 0;
-	if (!left_str[i])
-		return (NULL);
-	while (left_str[i] && left_str[i] != '\n')
-		i++;
-	str = (char *)malloc((i + 2) * sizeof(char));
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (left_str[i] && left_str[i] != '\n')
+	while (i < n)
 	{
-		str[i] = left_str[i];
+		((char *)s)[i] = '\0';
 		i++;
 	}
-	if (left_str[i] == '\n')
-	{
-		str[i] = left_str[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	size_t	result;
+	char	*ret;
+
+	result = count * size;
+	ret = malloc(result);
+	if (!ret)
+		return (NULL);
+	ft_bzero(ret, result);
+	return (ret);
 }
