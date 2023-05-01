@@ -6,7 +6,7 @@
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 10:39:41 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/05/01 14:49:52 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/05/01 16:11:09 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,10 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
-	left_str[OPEN_MAX] = gnt_read(fd, left_str[OPEN_MAX]);
-	if (!left_str[OPEN_MAX])
+	left_str[fd] = gnt_read(fd, left_str[fd]);
+	if (!left_str[fd])
 		return (NULL);
-	line = gnt_line(left_str[OPEN_MAX]);
-	left_str[OPEN_MAX] = gnt_next(left_str[OPEN_MAX]);
+	line = gnt_line(left_str[fd]);
+	left_str[fd] = gnt_next(left_str[fd]);
 	return (line);
 }
