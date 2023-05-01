@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpoussie <mpoussie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 10:39:41 by mpoussie          #+#    #+#             */
-/*   Updated: 2023/05/01 14:37:12 by mpoussie         ###   ########.fr       */
+/*   Updated: 2023/05/01 14:49:52 by mpoussie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*gnt_next(char *left_str)
 {
@@ -92,15 +92,15 @@ char	*gnt_read(int fd, char *left_str)
 
 char	*get_next_line(int fd)
 {
-	static char	*left_str;
+	static char	*left_str[OPEN_MAX];
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
-	left_str = gnt_read(fd, left_str);
-	if (!left_str)
+	left_str[OPEN_MAX] = gnt_read(fd, left_str[OPEN_MAX]);
+	if (!left_str[OPEN_MAX])
 		return (NULL);
-	line = gnt_line(left_str);
-	left_str = gnt_next(left_str);
+	line = gnt_line(left_str[OPEN_MAX]);
+	left_str[OPEN_MAX] = gnt_next(left_str[OPEN_MAX]);
 	return (line);
 }
